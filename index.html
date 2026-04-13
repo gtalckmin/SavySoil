@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Savvy - Student Advisor Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Soil Savvy - Student Advisor Game</h1>
+        <p class="intro">Read the soil test, build a fertilizer plan with rates and timing, then check your score.</p>
+
+        <!-- Scenario Setup -->
+        <section class="panel controls-panel">
+            <h2>Scenario Setup</h2>
+            <div class="controls-grid">
+                <label>
+                    Crop
+                    <select id="crop-select"></select>
+                </label>
+                <label>
+                    Soil Type
+                    <select id="soil-select"></select>
+                </label>
+            </div>
+            <button id="new-scenario-btn">New Scenario</button>
+        </section>
+
+        <!-- Soil Analysis + Radar Chart side by side -->
+        <section class="panel" id="soil-report">
+            <h2>Soil Analysis Report</h2>
+            <p id="soil-summary"></p>
+            <div class="report-layout">
+                <table>
+                    <thead>
+                        <tr><th>Metric</th><th>Value</th><th>Status</th></tr>
+                    </thead>
+                    <tbody id="soil-table-body"></tbody>
+                </table>
+                <div class="chart-wrap">
+                    <canvas id="radar-chart" width="420" height="420"></canvas>
+                    <p class="chart-legend">
+                        <span class="leg leg-target"></span> Crop target
+                        <span class="leg leg-soil"></span> Current soil
+                        <span class="leg leg-plan"></span> After plan
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fertilizer Recommendation (accordion) -->
+        <section class="panel" id="inventory">
+            <h2>Your Recommendation</h2>
+            <p>Expand a group, set a rate (kg/ha) and application timing. Collapse groups you don't need.</p>
+            <div id="accordion"></div>
+            <div class="actions">
+                <button id="check-btn">Check Recommendation</button>
+                <button id="clear-btn" class="ghost">Clear All</button>
+            </div>
+        </section>
+
+        <!-- Results -->
+        <section class="panel" id="feedback">
+            <h2>Results</h2>
+            <div id="score-cards"></div>
+            <p id="result-msg"></p>
+            <div id="feedback-list"></div>
+        </section>
+
+        <!-- Price Reference -->
+        <section class="panel" id="price-panel">
+            <h2>Fertilizer Price Reference</h2>
+            <table id="price-table">
+                <thead>
+                    <tr><th>Product</th><th>Analysis</th><th>$/tonne</th></tr>
+                </thead>
+                <tbody id="price-table-body"></tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
