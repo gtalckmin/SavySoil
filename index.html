@@ -56,6 +56,7 @@
             <div id="accordion"></div>
             <div class="actions">
                 <button id="check-btn">Check Recommendation</button>
+                <button id="advisor-btn" class="secondary">Get Advisor Review</button>
                 <button id="clear-btn" class="ghost">Clear All</button>
             </div>
         </section>
@@ -66,6 +67,14 @@
             <div id="score-cards"></div>
             <p id="result-msg"></p>
             <div id="feedback-list"></div>
+        </section>
+
+        <!-- Advisor Review (Gemma LLM Feedback) -->
+        <section class="panel" id="advisor-panel" style="display:none;">
+            <h2>Advisor Review</h2>
+            <p id="advisor-loading" style="display:none; font-style:italic;">Consulting agronomist advisor...</p>
+            <div id="advisor-review" class="advisor-review"></div>
+            <p id="advisor-error" style="display:none; color:var(--error);"></p>
         </section>
 
         <!-- Price Reference -->

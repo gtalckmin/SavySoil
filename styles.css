@@ -57,6 +57,10 @@ button.ghost {
     background: #eef4ee; color: var(--ink); border: 1px solid var(--line);
 }
 button.ghost:hover { background: #dfeadf; }
+button.secondary {
+    background: #d4a574; color: #fff;
+}
+button.secondary:hover { background: #b8915f; }
 
 /* ---------- soil report layout ---------- */
 .report-layout {
@@ -136,4 +140,15 @@ th { font-size: .92rem; color: #33453d; }
     .controls-grid { grid-template-columns: 1fr; }
     .report-layout { grid-template-columns: 1fr; }
     .fert-row { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- advisor review ---------- */
+.advisor-review {
+    background: #faf9f5;
+    border-left: 4px solid #d4a574;
+    padding: 14px;
+    border-radius: 6px;
+    line-height: 1.6;
+    font-size: .95rem;
+    color: #2c3e2a;
 }

@@ -292,6 +292,82 @@ function showFeedback(result, afterSoil){
         result.messages.map(m=>`<div class="feedback-item">${esc(m)}</div>`).join("");
 }
 
+/* ---------- BACKEND INTEGRATION ---------- */
+
+// Configuration: Update this to your deployed backend URL
+const BACKEND_URL = "http://localhost:8000/review-submission";  // Change for production
+
+function buildSubmissionPayload() {
+    if (!lastSimulation) {
+        alert("Please check your recommendation first.");
+        return null;
+    }
+
+    const rec = gatherRecommendation();
+    const result = scorePlan(lastSimulation.after, lastSimulation.additions, rec, lastSimulation.totalCost);
+
+    // Get fertilizer names from IDs
+    const fertilizerPlan = rec.map(entry => {
+        const fert = fertilizers.find(f => f.id === entry.fertId);
+        return {
+            product_name: fert ? fert.name : "Unknown",
+            rate_kg_ha: entry.rate,
+            timing: entry.timing
+        };
+    });
+
+    return {
+        crop: currentCropKey,
+        soil_type: currentSoil.id,
+        yield_score: result.yieldScore,
+        cost_score: result.costScore,
+        fertilizer_plan: fertilizerPlan
+    };
+}
+
+async function getAdvisorReview() {
+    const submission = buildSubmissionPayload();
+    if (!submission) return;
+
+    const panel = document.getElementById("advisor-panel");
+    const loading = document.getElementById("advisor-loading");
+    const review = document.getElementById("advisor-review");
+    const error = document.getElementById("advisor-error");
+
+    // Show panel and loading state
+    panel.style.display = "block";
+    loading.style.display = "block";
+    review.textContent = "";
+    error.style.display = "none";
+
+    try {
+        const response = await fetch(BACKEND_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(submission)
+        });
+
+        if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.detail || `HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Display the review
+        loading.style.display = "none";
+        review.textContent = data.review;
+
+    } catch (err) {
+        console.error("Error getting advisor review:", err);
+        loading.style.display = "none";
+        error.style.display = "block";
+        error.textContent = `Error: ${err.message}. Make sure the backend is running at ${BACKEND_URL}`;
+    }
+}
+
 /* ---------- RADAR / STAR CHART ---------- */
 
 const radarAxes = ["mineralN","P","K","S","Ca","Zn","B","Mo"];
@@ -426,6 +502,7 @@ function wireEvents(){
         showFeedback(result, sim.after);
         drawRadar(sim.after);
     });
+    document.getElementById("advisor-btn").addEventListener("click", getAdvisorReview);
     document.getElementById("clear-btn").addEventListener("click", clearRates);
     document.getElementById("new-scenario-btn").addEventListener("click", randomScenario);
 }
