@@ -295,7 +295,7 @@ function showFeedback(result, afterSoil){
 /* ---------- BACKEND INTEGRATION ---------- */
 
 // Configuration: Update this to your deployed backend URL
-const BACKEND_URL = "http://localhost:8000/review-submission";  // Change for production
+const BACKEND_URL = "https://savysoil-backend.onrender.com/review-submission";  // Production Render endpoint
 
 function buildSubmissionPayload() {
     if (!lastSimulation) {
